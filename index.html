@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Streak Runner - The Duel Edition</title>
+    <title>Streak Runner - Solo Edition</title>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -44,7 +44,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .header-actions {
@@ -52,19 +52,6 @@
             gap: 12px;
             align-items: center;
         }
-
-        .profile-toggle {
-            background: #3182ce;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .profile-toggle:hover { background: #2b6cb0; }
 
         .icon-btn {
             background: none;
@@ -80,13 +67,14 @@
             width: 100%;
             background: #edf2f7;
             border: 1px solid var(--border-color);
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             text-align: center;
             font-weight: bold;
             margin-bottom: 15px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             box-sizing: border-box;
+            color: #2b6cb0;
         }
 
         .goal-container {
@@ -118,40 +106,6 @@
             width: 0%;
             transition: width 0.5s ease;
         }
-
-        .duel-container {
-            width: 100%;
-            background: linear-gradient(135deg, #2d3748, #1a202c);
-            color: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            box-sizing: border-box;
-        }
-        .duel-title {
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            color: #fbd38d;
-        }
-        .duel-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .duel-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-        }
-        .duel-runner-name { font-weight: bold; font-size: 0.95rem; color: #63b3ed; margin-bottom: 5px; }
-        .duel-runner-name.r2 { color: #f687b3; }
-        .duel-stat { font-size: 1.3rem; font-weight: 800; margin: 2px 0; }
-        .duel-label { font-size: 0.75rem; color: #a0aec0; text-transform: uppercase; }
 
         .tabs {
             display: flex;
@@ -257,7 +211,6 @@
         .preview-item { padding: 4px 0; border-bottom: 1px solid #edf2f7; }
 
         .zones-panel-container { display: flex; flex-direction: column; gap: 15px; }
-        .zone-comparison-header { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: center; }
         .zone-runner-column { background: #f7fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; }
         .zone-item-box { border-left: 4px solid #cbd5e0; padding-left: 8px; margin-bottom: 12px; text-align: left; }
         .zone-item-title { font-weight: bold; font-size: 0.85rem; text-transform: uppercase; color: #4a5568; }
@@ -272,35 +225,14 @@
         <header>
             <h1>Streak Runner</h1>
             <div class="header-actions">
-                <button class="profile-toggle" id="profile-toggle-btn" onclick="toggleActiveRunner()">👤 Switching...</button>
                 <button class="icon-btn" title="Pace & HR Zones Calculator" onclick="openZonesModal()">⏱️</button>
                 <button class="icon-btn" title="AI Coach" onclick="openAiModal()">🤖</button>
                 <button class="icon-btn" title="Settings" onclick="openSettingsModal()">⚙️</button>
             </div>
         </header>
 
-        <div class="duel-container">
-            <div class="duel-title">⚔️ THE MOTIVATION DUEL ARENA ⚔️</div>
-            <div class="duel-grid">
-                <div class="duel-card">
-                    <div class="duel-runner-name" id="duel-r1-name">Runner 1</div>
-                    <div class="duel-stat" id="duel-r1-streak">0 Days</div>
-                    <div class="duel-label">Plan Streak</div>
-                    <div class="duel-stat" id="duel-r1-miles" style="font-size:1.1rem; color:#a0aec0; margin-top:5px;">0.0 mi</div>
-                    <div class="duel-label">Total Mileage</div>
-                </div>
-                <div class="duel-card">
-                    <div class="duel-runner-name r2" id="duel-r2-name">Runner 2</div>
-                    <div class="duel-stat" id="duel-r2-streak">0 Days</div>
-                    <div class="duel-label">Plan Streak</div>
-                    <div class="duel-stat" id="duel-r2-miles" style="font-size:1.1rem; color:#a0aec0; margin-top:5px;">0.0 mi</div>
-                    <div class="duel-label">Total Mileage</div>
-                </div>
-            </div>
-        </div>
-
         <div class="active-runner-banner" id="current-viewer-notice">
-            Viewing Calendar Plan for: --
+            🏃‍♂️ My Active Training Dashboard
         </div>
 
         <div class="goal-container">
@@ -472,20 +404,13 @@
     </div>
 
     <div class="modal-overlay" id="zones-modal" onclick="closeOnBackgroundClick(event, 'zones-modal')">
-        <div class="modal" onclick="event.stopPropagation()" style="max-width: 650px;">
-            <h3 style="margin-top: 0; text-align: center; color: #2b6cb0;">⏱️ Comparative Running Paces & Zones</h3>
-            <p style="font-size: 0.85rem; color:#718096; text-align: center; margin-top: -8px;">Calculated dynamically from best times and heart rates provided inside profile settings.</p>
+        <div class="modal" onclick="event.stopPropagation()">
+            <h3 style="margin-top: 0; text-align: center; color: #2b6cb0;">⏱️ Training Paces & Zones</h3>
+            <p style="font-size: 0.85rem; color:#718096; text-align: center; margin-top: -8px;">Calculated dynamically from best times and heart rates provided inside settings.</p>
             
             <div class="zones-panel-container">
-                <div class="zone-comparison-header">
-                    <div class="zone-runner-column">
-                        <h4 id="zone-modal-r1-title" style="margin: 0 0 10px 0; color: #3182ce;">Runner 1</h4>
-                        <div id="zone-r1-box-target"></div>
-                    </div>
-                    <div class="zone-runner-column">
-                        <h4 id="zone-modal-r2-title" style="margin: 0 0 10px 0; color: #f687b3;">Runner 2</h4>
-                        <div id="zone-r2-box-target"></div>
-                    </div>
+                <div class="zone-runner-column">
+                    <div id="zone-r1-box-target"></div>
                 </div>
             </div>
             
@@ -497,18 +422,11 @@
 
     <div class="modal-overlay" id="settings-modal" onclick="closeOnBackgroundClick(event, 'settings-modal')">
         <div class="modal" onclick="event.stopPropagation()">
-            <h3>Duel Configuration Strategy</h3>
+            <h3>Runner Configuration</h3>
             <div class="form-group"><label>Gemini AI API Key</label><input type="password" id="set-api-key" placeholder="Paste AI Key Here"></div>
             
             <hr>
-            <h4>👥 Custom Profile Names</h4>
-            <div class="form-row-grid">
-                <div class="form-group"><label>Runner 1 Name</label><input type="text" id="set-r1-name" value="Runner 1"></div>
-                <div class="form-group"><label>Runner 2 Name</label><input type="text" id="set-r2-name" value="Runner 2"></div>
-            </div>
-            
-            <hr>
-            <h4 id="settings-active-player-title" style="color: #2b6cb0;">Personal Settings for Active Runner</h4>
+            <h4 style="color: #2b6cb0;">Personal Settings</h4>
             <div class="form-row-grid">
                 <div class="form-group"><label>Improvement Distance</label><input type="text" id="set-distance"></div>
                 <div class="form-group"><label>Current Time</label><input type="text" id="set-current-time"></div>
@@ -521,7 +439,6 @@
             
             <hr>
             <h4 style="color:#2b6cb0; margin-bottom: 5px;">⚡ Performance Benchmarks & PRs (Optional)</h4>
-            <p style="font-size:0.75rem; color:#718096; margin-top:0;">Fill in whatever metrics you have. Used to calculate your dynamic training zones.</p>
             <div class="form-row-grid">
                 <div class="form-group"><label>Best 400m (MM:SS)</label><input type="text" id="set-pr-400" placeholder="01:15"></div>
                 <div class="form-group"><label>Best 1 Mile (MM:SS)</label><input type="text" id="set-pr-1m" placeholder="05:50"></div>
@@ -541,7 +458,7 @@
                 <div class="form-group"><label>Resting HR (BPM)</label><input type="number" id="set-hr-rest" placeholder="60"></div>
                 <div class="form-group"><label>Max HR (BPM)</label><input type="number" id="set-hr-max" placeholder="190"></div>
             </div>
-            <div class="form-group"><label>Age (For Fallback Estimates)</label><input type="number" id="set-v-age" placeholder="25"></div>
+            <div class="form-group"><label>Age</label><input type="number" id="set-v-age" placeholder="25"></div>
             
             <hr>
             <h4>Manual Records Overrides</h4>
@@ -560,7 +477,7 @@
     <div class="modal-overlay" id="ai-modal" onclick="closeOnBackgroundClick(event, 'ai-modal')">
         <div class="modal" onclick="event.stopPropagation()" style="border-top: 5px solid #9f7aea;">
             <h3>🤖 AI Running Coach</h3>
-            <p style="font-size: 0.85rem; margin-top: 0; color: #718096;">Ask AI to design a schedule for the active runner.</p>
+            <p style="font-size: 0.85rem; margin-top: 0; color: #718096;">Ask AI to design your new custom schedule parameters.</p>
             <div class="form-group">
                 <label>What's your plan goal?</label>
                 <textarea class="ai-prompt-input" id="ai-prompt" placeholder="Design 3 runs a week with rest days explicit..."></textarea>
@@ -577,28 +494,22 @@
     </div>
 
     <script>
-        let activeRunnerIndex = 1; 
-        let globalNames = JSON.parse(localStorage.getItem('sr_duel_names')) || { r1: "Runner 1", r2: "Runner 2" };
-        let apiKeyGlobal = localStorage.getItem('sr_duel_apikey') || "";
-
+        let apiKeyGlobal = localStorage.getItem('sr_solo_apikey') || "";
         let workouts = [];
         let config = {};
-
         let activeSelectedDateStr = "";
         let navDate = new Date(); 
         let tempAiWorkouts = []; 
 
         window.onload = function() {
-            loadRunnerData(1); 
-            refreshDuelArena();
+            loadRunnerData();
         };
 
-        function loadRunnerData(index) {
-            activeRunnerIndex = index;
-            workouts = JSON.parse(localStorage.getItem(`sr_workouts_r${index}`)) || [];
+        function loadRunnerData() {
+            workouts = JSON.parse(localStorage.getItem('sr_workouts_solo')) || [];
             
             let fallbackStartDate = new Date().toISOString().split('T')[0];
-            config = JSON.parse(localStorage.getItem(`sr_config_r${index}`)) || {
+            config = JSON.parse(localStorage.getItem('sr_config_solo')) || {
                 distance: "5K", currentTime: "30:00", goalTime: "25:00", targetDate: "2026-08-01", startDate: fallbackStartDate,
                 pbDist: 0, pbPace: "--:--",
                 pr400: "", pr1m: "", pr5k: "", pr10k: "", prhm: "", prfm: "",
@@ -606,19 +517,10 @@
             };
             if(!config.startDate) config.startDate = fallbackStartDate;
 
-            const currentName = activeRunnerIndex === 1 ? globalNames.r1 : globalNames.r2;
-            document.getElementById('profile-toggle-btn').innerText = `👤 Active: ${currentName}`;
-            document.getElementById('current-viewer-notice').innerText = `Viewing Calendar Plan for: ${currentName}`;
-
             renderCalendar();
             renderCheckoffList();
             calculateMetrics();
             updateGoalBanner();
-        }
-
-        function toggleActiveRunner() {
-            let nextIndex = activeRunnerIndex === 1 ? 2 : 1;
-            loadRunnerData(nextIndex);
         }
 
         function switchTab(tabId) {
@@ -701,7 +603,6 @@
             const currentWorkout = workouts.find(w => w.id === workoutId);
             if(!currentWorkout) return;
 
-            // Reset back to normal view style layout mode upon entry
             document.getElementById('details-view-container').style.display = 'block';
             document.getElementById('details-edit-container').style.display = 'none';
             document.getElementById('details-edit-toggle-btn').innerText = "✏️ Edit";
@@ -724,7 +625,6 @@
 
             document.getElementById('details-notes').innerText = currentWorkout.notes || "No extra layout instructions provided for this workout.";
             
-            // Set up hidden metadata values for edit track targets
             document.getElementById('edit-workout-id').value = currentWorkout.id;
             document.getElementById('edit-title').value = currentWorkout.title;
             document.getElementById('edit-distance').value = currentWorkout.distance;
@@ -767,26 +667,20 @@
                 target.category = document.getElementById('edit-category').value;
                 target.notes = document.getElementById('edit-notes').value || "";
 
-                localStorage.setItem(`sr_workouts_r${activeRunnerIndex}`, JSON.stringify(workouts));
-                renderCalendar(); renderCheckoffList(); calculateMetrics(); refreshDuelArena();
+                localStorage.setItem('sr_workouts_solo', JSON.stringify(workouts));
+                renderCalendar(); renderCheckoffList(); calculateMetrics();
                 closeModal('details-modal');
             }
         }
 
         function deleteWorkout(workoutId) {
             workouts = workouts.filter(w => w.id !== workoutId);
-            localStorage.setItem(`sr_workouts_r${activeRunnerIndex}`, JSON.stringify(workouts));
-            renderCalendar(); renderCheckoffList(); calculateMetrics(); refreshDuelArena();
+            localStorage.setItem('sr_workouts_solo', JSON.stringify(workouts));
+            renderCalendar(); renderCheckoffList(); calculateMetrics();
         }
 
         function openSettingsModal() {
             document.getElementById('set-api-key').value = apiKeyGlobal;
-            document.getElementById('set-r1-name').value = globalNames.r1;
-            document.getElementById('set-r2-name').value = globalNames.r2;
-
-            const activeName = activeRunnerIndex === 1 ? globalNames.r1 : globalNames.r2;
-            document.getElementById('settings-active-player-title').innerText = `Personal Settings for: ${activeName}`;
-
             document.getElementById('set-distance').value = config.distance || "5K";
             document.getElementById('set-current-time').value = config.currentTime || "30:00";
             document.getElementById('set-goal-time').value = config.goalTime || "25:00";
@@ -830,20 +724,14 @@
                 notes: document.getElementById('run-notes').value || "",
                 completed: false
             });
-            localStorage.setItem(`sr_workouts_r${activeRunnerIndex}`, JSON.stringify(workouts));
-            renderCalendar(); renderCheckoffList(); calculateMetrics(); refreshDuelArena();
+            localStorage.setItem('sr_workouts_solo', JSON.stringify(workouts));
+            renderCalendar(); renderCheckoffList(); calculateMetrics();
             closeModal('run-modal');
         }
 
         function saveSettings() {
             apiKeyGlobal = document.getElementById('set-api-key').value;
-            localStorage.setItem('sr_duel_apikey', apiKeyGlobal);
-
-            globalNames = {
-                r1: document.getElementById('set-r1-name').value || "Runner 1",
-                r2: document.getElementById('set-r2-name').value || "Runner 2"
-            };
-            localStorage.setItem('sr_duel_names', JSON.stringify(globalNames));
+            localStorage.setItem('sr_solo_apikey', apiKeyGlobal);
 
             config = {
                 distance: document.getElementById('set-distance').value,
@@ -863,10 +751,9 @@
                 hrMax: document.getElementById('set-hr-max').value,
                 age: document.getElementById('set-v-age').value
             };
-            localStorage.setItem(`sr_config_r${activeRunnerIndex}`, JSON.stringify(config));
+            localStorage.setItem('sr_config_solo', JSON.stringify(config));
             
-            loadRunnerData(activeRunnerIndex);
-            refreshDuelArena();
+            loadRunnerData();
             closeModal('settings-modal');
         }
 
@@ -899,8 +786,8 @@
             const target = workouts.find(w => w.id === id);
             if(target) {
                 target.completed = true;
-                localStorage.setItem(`sr_workouts_r${activeRunnerIndex}`, JSON.stringify(workouts));
-                renderCalendar(); renderCheckoffList(); calculateMetrics(); refreshDuelArena();
+                localStorage.setItem('sr_workouts_solo', JSON.stringify(workouts));
+                renderCalendar(); renderCheckoffList(); calculateMetrics();
             }
         }
 
@@ -914,11 +801,9 @@
             const completed = workouts.filter(w => w.completed);
             const completedRuns = completed.filter(w => w.category !== 'rest');
             
-            // Mileage aggregate calculation
             const totalMiles = completedRuns.reduce((acc, curr) => acc + curr.distance, 0);
             document.getElementById('stat-total-miles').innerText = `${totalMiles.toFixed(1)} mi`;
 
-            // NEW: All-Time Weighted Average Pace Over All Completed Non-Rest Workouts
             let totalSecondsAccumulated = 0;
             let totalMilesAccumulated = 0;
 
@@ -968,25 +853,6 @@
             document.getElementById('bench-1m').innerText = config.pr1m || "--:--";
             document.getElementById('bench-5k').innerText = bestEstimated5k;
             document.getElementById('bench-hm').innerText = config.prhm || "--:--";
-        }
-
-        function refreshDuelArena() {
-            document.getElementById('duel-r1-name').innerText = globalNames.r1;
-            document.getElementById('duel-r2-name').innerText = globalNames.r2;
-
-            const w1 = JSON.parse(localStorage.getItem('sr_workouts_r1')) || [];
-            const w2 = JSON.parse(localStorage.getItem('sr_workouts_r2')) || [];
-
-            const streak1 = w1.filter(w => w.completed).length;
-            const streak2 = w2.filter(w => w.completed).length;
-
-            const miles1 = w1.filter(w => w.completed && w.category !== 'rest').reduce((acc, c) => acc + (c.distance || 0), 0);
-            const miles2 = w2.filter(w => w.completed && w.category !== 'rest').reduce((acc, c) => acc + (c.distance || 0), 0);
-
-            document.getElementById('duel-r1-streak').innerText = `${streak1} Days`;
-            document.getElementById('duel-r2-streak').innerText = `${streak2} Days`;
-            document.getElementById('duel-r1-miles').innerText = `${miles1.toFixed(1)} mi`;
-            document.getElementById('duel-r2-miles').innerText = `${miles2.toFixed(1)} mi`;
         }
 
         function parseTimeToSeconds(timeStr) {
@@ -1079,20 +945,8 @@
         }
 
         function openZonesModal() {
-            document.getElementById('zone-modal-r1-title').innerText = globalNames.r1;
-            document.getElementById('zone-modal-r2-title').innerText = globalNames.r2;
-
-            const c1 = JSON.parse(localStorage.getItem('sr_config_r1'));
-            const c2 = JSON.parse(localStorage.getItem('sr_config_r2'));
-
-            renderColumnZones('zone-r1-box-target', c1);
-            renderColumnZones('zone-r2-box-target', c2);
-
-            document.getElementById('zones-modal').style.display = 'flex';
-        }
-
-        function renderColumnZones(targetId, runnerCfg) {
-            const target = document.getElementById(targetId);
+            const runnerCfg = JSON.parse(localStorage.getItem('sr_config_solo'));
+            const target = document.getElementById('zone-r1-box-target');
             target.innerHTML = '';
 
             if(!runnerCfg) {
@@ -1125,6 +979,8 @@
                 `;
                 target.appendChild(item);
             });
+
+            document.getElementById('zones-modal').style.display = 'flex';
         }
 
         async function askAiForPlan() {
@@ -1185,8 +1041,8 @@
                     category: w.category || "easy", notes: w.notes || "", completed: false
                 });
             });
-            localStorage.setItem(`sr_workouts_r${activeRunnerIndex}`, JSON.stringify(workouts));
-            renderCalendar(); renderCheckoffList(); calculateMetrics(); refreshDuelArena();
+            localStorage.setItem('sr_workouts_solo', JSON.stringify(workouts));
+            renderCalendar(); renderCheckoffList(); calculateMetrics();
             closeModal('ai-modal');
         }
     </script>
